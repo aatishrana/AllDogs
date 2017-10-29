@@ -1,18 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     android:id="@+id/activity_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.aatishrana.alldogs.MainActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/activity_main_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
-</RelativeLayout>
+        android:text="All"/>
+
+    <Button
+        android:id="@+id/activity_main_a_random"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A Random"/>
+
+    <Button
+        android:id="@+id/activity_main_img_of_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Image of a dog"/>
+
+    <Button
+        android:id="@+id/activity_main_a_random_img_of_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A Random image of a dog"/>
+
+    <Button
+        android:id="@+id/activity_main_sub_breed_of_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="All Sub breed of a dog"/>
+</LinearLayout>
