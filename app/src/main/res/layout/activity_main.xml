@@ -28,17 +28,12 @@
         android:id="@+id/activity_main_img_of_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Image of a dog"/>
+        android:text="Images of a dog"/>
 
-    <Button
-        android:id="@+id/activity_main_a_random_img_of_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="A Random image of a dog"/>
 
-    <Button
-        android:id="@+id/activity_main_sub_breed_of_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="All Sub breed of a dog"/>
+    <!--<Button-->
+        <!--android:id="@+id/activity_main_sub_breed_of_one"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="All Sub breed of a dog"/>-->
 </LinearLayout>

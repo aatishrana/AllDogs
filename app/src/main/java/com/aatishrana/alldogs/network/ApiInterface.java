@@ -5,7 +5,7 @@ import com.aatishrana.alldogs.model.AllImages;
 import com.aatishrana.alldogs.model.AllSubBreed;
 import com.aatishrana.alldogs.model.OneRandom;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -16,17 +16,17 @@ import retrofit2.http.Path;
 public interface ApiInterface
 {
     @GET("api/breeds/list")
-    Call<AllBreed> getAllBreeds();
+    Observable<AllBreed> getAllBreeds();
 
     @GET("api/breeds/image/random")
-    Call<OneRandom> getARandomPic();
+    Observable<OneRandom> getARandomPic();
 
     @GET("api/breed/{dog_name}/images")
-    Call<AllImages> getImagesOfADog(@Path(value = "dog_name", encoded = true) String dog_name);
+    Observable<AllImages> getImagesOfADog(@Path(value = "dog_name", encoded = true) String dog_name);
 
     @GET("api/breed/{dog_name}/images/random")
-    Call<OneRandom> getARandomPicOfADog(@Path(value = "dog_name", encoded = true) String dog_name);
+    Observable<OneRandom> getARandomPicOfADog(@Path(value = "dog_name", encoded = true) String dog_name);
 
     @GET("api/breed/{dog_name}/list")
-    Call<AllSubBreed> getSubBreedOfADog(@Path(value = "dog_name", encoded = true) String dog_name);
+    Observable<AllSubBreed> getSubBreedOfADog(@Path(value = "dog_name", encoded = true) String dog_name);
 }

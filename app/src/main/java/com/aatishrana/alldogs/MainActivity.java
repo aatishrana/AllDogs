@@ -2,54 +2,51 @@ package com.aatishrana.alldogs;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.aatishrana.alldogs.model.AllBreed;
-import com.aatishrana.alldogs.model.AllImages;
-import com.aatishrana.alldogs.model.AllSubBreed;
-import com.aatishrana.alldogs.model.OneRandom;
+import com.aatishrana.alldogs.model.Dog;
 import com.aatishrana.alldogs.network.ApiClient;
 import com.aatishrana.alldogs.network.ApiInterface;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.List;
+
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
 
 public class MainActivity extends AppCompatActivity
 {
 
-
     private ApiInterface apiInterface;
+    private DataRepository dataRepository;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        dataRepository = new DataRepositoryImpl(apiInterface);
 
         findViewById(R.id.activity_main_all).setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                apiInterface.getAllBreeds().enqueue(new Callback<AllBreed>()
-                {
-                    @Override
-                    public void onResponse(Call<AllBreed> call, Response<AllBreed> response)
-                    {
-                        if (response.isSuccessful())
-                            Log.e("dog", response.body().toString());
-                    }
-
-                    @Override
-                    public void onFailure(Call<AllBreed> call, Throwable t)
-                    {
-                        t.printStackTrace();
-                    }
-                });
+                dataRepository.getDogs()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Dog>()
+                        {
+                            @Override
+                            public void accept(Dog dog) throws Exception
+                            {
+                                if (dog != null)
+                                    Help.L(dog.toString());
+                            }
+                        });
             }
         });
 
@@ -59,21 +56,17 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                apiInterface.getARandomPic().enqueue(new Callback<OneRandom>()
-                {
-                    @Override
-                    public void onResponse(Call<OneRandom> call, Response<OneRandom> response)
-                    {
-                        if (response.isSuccessful())
-                            Log.e("dog", "" + response.body().toString());
-                    }
-
-                    @Override
-                    public void onFailure(Call<OneRandom> call, Throwable t)
-                    {
-                        t.printStackTrace();
-                    }
-                });
+                dataRepository.getARandomPic()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<String>()
+                        {
+                            @Override
+                            public void accept(String url) throws Exception
+                            {
+                                Help.L(url);
+                            }
+                        });
             }
         });
 
@@ -83,70 +76,39 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                apiInterface.getImagesOfADog("hound").enqueue(new Callback<AllImages>()
-                {
-                    @Override
-                    public void onResponse(Call<AllImages> call, Response<AllImages> response)
-                    {
-                        if (response.isSuccessful())
-                            Log.e("dog", "" + response.body().toString());
-                    }
-
-                    @Override
-                    public void onFailure(Call<AllImages> call, Throwable t)
-                    {
-                        t.printStackTrace();
-                    }
-                });
+                dataRepository.getAllImages("hound")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<List<String>>()
+                        {
+                            @Override
+                            public void accept(List<String> images) throws Exception
+                            {
+                                Help.L(images.toString());
+                            }
+                        });
             }
         });
 
 
-        findViewById(R.id.activity_main_a_random_img_of_one).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                apiInterface.getARandomPicOfADog("hound").enqueue(new Callback<OneRandom>()
-                {
-                    @Override
-                    public void onResponse(Call<OneRandom> call, Response<OneRandom> response)
-                    {
-                        if (response.isSuccessful())
-                            Log.e("dog", "" + response.body().toString());
-                    }
-
-                    @Override
-                    public void onFailure(Call<OneRandom> call, Throwable t)
-                    {
-                        t.printStackTrace();
-                    }
-                });
-            }
-        });
-
-
-        findViewById(R.id.activity_main_sub_breed_of_one).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                apiInterface.getSubBreedOfADog("hound").enqueue(new Callback<AllSubBreed>()
-                {
-                    @Override
-                    public void onResponse(Call<AllSubBreed> call, Response<AllSubBreed> response)
-                    {
-                        if (response.isSuccessful())
-                            Log.e("dog", "" + response.body().toString());
-                    }
-
-                    @Override
-                    public void onFailure(Call<AllSubBreed> call, Throwable t)
-                    {
-                        t.printStackTrace();
-                    }
-                });
-            }
-        });
+//        findViewById(R.id.activity_main_sub_breed_of_one).setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                apiInterface.getSubBreedOfADog("hound")
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(new Consumer<AllSubBreed>()
+//                        {
+//                            @Override
+//                            public void accept(AllSubBreed allSubBreed) throws Exception
+//                            {
+//                                if (allSubBreed != null)
+//                                    Help.L(allSubBreed.toString());
+//                            }
+//                        });
+//            }
+//        });
     }
 }
