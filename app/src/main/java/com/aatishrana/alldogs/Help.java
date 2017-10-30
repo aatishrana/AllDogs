@@ -12,4 +12,6 @@ public class Help
     {
         Log.e("Dog", "" + msg);
     }
+
+    public static int ID_DOGS_LIST = 101;
 }
